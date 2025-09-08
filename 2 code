@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank Loan EMI Calculator</title>
+  <link rel="stylesheet" href="emi.css">
+</head>
+<body>
+  <header>
+    <h1>Bank Loan EMI Calculator</h1>
+  </header>
+
+  <div class="calculator">
+    <label>Loan Amount (₹):</label>
+    <input type="number" id="loan" placeholder="Enter Loan Amount"><br><br>
+
+    <label>Annual Interest Rate (%):</label>
+    <input type="number" id="rate" placeholder="Enter Interest Rate"><br><br>
+
+    <label>Tenure (Years):</label>
+    <input type="number" id="years" placeholder="Enter Years"><br><br>
+
+    <button onclick="calculateEMI()">Calculate EMI</button>
+
+    <h3 id="result"></h3>
+  </div>
+
+  <script src="emi.js"></script>
+</body>
+</html>
+
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  background: #003366;
+  color: white;
+  padding: 15px;
+}
+
+.calculator {
+  background: white;
+  width: 350px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  text-align: left;
+}
+
+.calculator label {
+  font-weight: bold;
+}
+
+.calculator input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.calculator button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.calculator button:hover {
+  background: #0056b3;
+}
+
+#result {
+  margin-top: 20px;
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+function calculateEMI() {
+  let P = parseFloat(document.getElementById("loan").value) || 0;
+  let annualRate = parseFloat(document.getElementById("rate").value) || 0;
+  let years = parseInt(document.getElementById("years").value) || 0;
+
+  if (P <= 0 || annualRate <= 0 || years <= 0) {
+    document.getElementById("result").innerHTML = "⚠️ Please enter valid values.";
+    return;
+  }
+
+  let N = years * 12;                  // Total months
+  let R = annualRate / 12 / 100;       // Monthly interest rate
+
+  // EMI Formula
+  let emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+
+  document.getElementById("result").innerHTML =
+    `Your Monthly EMI is: ₹${emi.toFixed(2)}`;
+}
